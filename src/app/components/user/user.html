@@ -1,0 +1,43 @@
+@if (users.length > 0) {
+
+<table class="table table-striped mx-2">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Nombre</td>
+            <td>Apellidos</td>
+            <td>Email</td>
+            <td>Usuario</td>
+            <td>Eliminar</td>
+            <td>Modificar</td>
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (user of users; track $index) {
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.username}}</td>
+            <td>
+                <button class="btn btn-danger" (click)="onRemoveUser(user.id)">
+                    Eliminar
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-info" (click)="onUpdateUser(user)">
+                    Modificar
+                </button>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+} @else {
+
+<p class="alert alert-warning">No hay usuarios para mostrar</p>
+}

@@ -1,0 +1,79 @@
+<div class="modal" tabindex="-1" [style.display]="open ? 'block' : 'none'">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{user.id > 0? 'Actualizar Usuario': 'Añadir Usuario'}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="onOpen()"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+
+                    <div>
+                        <input placeholder="Nombre" name="name" [(ngModel)]="user.name" class="form-control my-2"
+                            required #name="ngModel">
+                        @if (name.invalid && (name.dirty || name.touched)) {
+                        @if (name.errors!['required']) {
+                        <div class="alert alert-danger">El nombre es obligatorio.</div>
+                        }
+                        }
+                    </div>
+
+                    <div>
+                        <input placeholder="Apellidos" name="lastName" [(ngModel)]="user.lastName"
+                            class="form-control my-2" required #lastName="ngModel">
+                        @if (lastName.invalid && (lastName.dirty || lastName.touched)) {
+                        @if (lastName.errors!['required']) {
+                        <div class="alert alert-danger">El apellido es obligatorio.</div>
+                        }
+                        }
+                    </div>
+                    <div>
+                        <input placeholder="Email" name="email" [(ngModel)]="user.email" class="form-control my-2"
+                            required type="email" email #email="ngModel">
+                        @if (email.invalid && (email.dirty || email.touched)) {
+                        @if (email.errors!['required']) {
+                        <div class="alert alert-danger">El email es obligatorio.</div>
+                        }
+                        }
+                    </div>
+                    <div>
+                        <input placeholder="Usuario" name="username" [(ngModel)]="user.username"
+                            class="form-control my-2" required minlength="8" #username="ngModel">
+                        @if (username.invalid && (username.dirty || username.touched)) {
+                        @if (username.errors!['required']) {
+                        <div class="alert alert-danger">El usuario es obligatorio.</div>
+                        }
+                        @if (username.errors!['minlength']) {
+                        <div class="alert alert-danger">El usuario debe tener al menos 8 caracteres.</div>
+                        }
+                        }
+                    </div>
+                    <div>
+                        <input placeholder="Contraseña" name="password" type="password" [(ngModel)]="user.password"
+                            class="form-control my-2" required minlength="6" #password="ngModel">
+                        @if (password.invalid && (password.dirty || password.touched)) {
+                        @if (password.errors!['required']) {
+                        <div class="alert alert-danger">La contraseña es obligatorio.</div>
+                        }
+                        @if (password.errors!['minlength']) {
+                        <div class="alert alert-danger">La contraseña debe tener al menos 6 caracteres.</div>
+                        }
+                        }
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary my-2" [disabled]="userForm.invalid">
+                            {{user.id > 0? 'Actualizar': 'Añadir Usuario'}}</button>
+                        <button type="button" class="btn btn-secondary my-2" (click)="clearForm(userForm)">
+                            Limpiar datos</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="onOpen()">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
