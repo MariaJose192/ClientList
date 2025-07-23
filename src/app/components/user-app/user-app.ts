@@ -4,11 +4,14 @@ import { UserService } from '../../services/user.service';
 import { UserComponent } from '../user/user';
 import { UserForm } from '../user-form/user-form';
 import Swal from 'sweetalert2';
+import { Router, RouterOutlet } from '@angular/router';
+import { Navbar } from "../navbar/navbar";
+import { SharingData } from '../../services/sharing-data';
 
 
 @Component({
   selector: 'user-app',
-  imports: [UserComponent, UserForm],
+  imports: [UserComponent, UserForm, RouterOutlet, Navbar],
   templateUrl: './user-app.html',
   styleUrl: './user-app.css'
 })
@@ -18,46 +21,52 @@ export class UserApp implements OnInit {
 
   userSelected: User;
 
-  open: boolean = false;
-
-  constructor(private service: UserService) {
+  constructor(private service: UserService,
+    private sharingData: SharingData,
+    private router: Router
+  ) {
 
     this.userSelected = new User();
   }
 
   ngOnInit(): void {
     this.service.findAll().subscribe(users => this.users = users);
+    this.addUser();
+    this.onRemoveUser();
+    this.setSelectUser();
   }
 
-  addUser(user: User) {
-    if (user.id > 0) {
-      this.users = this.users.map(u => (u.id === user.id) ? { ...user } : u);
-    } else {
-      this.users = [... this.users, { ...user, id: this.users.length + 1 }];
-    }
-    Swal.fire({
-      title: "Guardado",
-      text: 'Usuario guardado correctamente',
-      icon: "success",
+  addUser() {
+    this.sharingData.newUser.subscribe(user => {
+      if (user.id > 0) {
+        this.users = this.users.map(u => (u.id === user.id) ? { ...user } : u);
+      } else {
+        this.users = [... this.users, { ...user, id: this.users.length + 1 }];
+
+      }
+      this.router.navigate(['/users'], { state: { users: this.users } });
+      Swal.fire({
+        title: "Guardado",
+        text: 'Usuario guardado correctamente',
+        icon: "success",
+      });
+      this.userSelected = new User();
     });
-    this.userSelected = new User();
-    this.setOpen();
   }
 
-  onRemoveUser(id: number): void {
-
+onRemoveUser(): void {
+  this.sharingData.idUserEvent.subscribe(id => {
     this.users = this.users.filter(user => user.id !== id);
+    this.router.navigate(['/users/create'], { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/users'], { state: { users: this.users } });
+    });
+  });
+}
 
-  }
-
-
-  setSelectUser(user: User): void {
+setSelectUser(): void {
+  this.sharingData.selectUserEvent.subscribe(user => {
     this.userSelected = { ...user };
-    this.open = true;
-  }
+  });
+}
 
-  setOpen() {
-        console.log('Formulario abierto 2');
-    this.open = !this.open;
-  }
 }

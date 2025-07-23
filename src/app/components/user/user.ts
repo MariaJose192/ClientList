@@ -1,19 +1,35 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { User } from '../../models/user';
 import Swal from 'sweetalert2';
+import { RouterModule, Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { SharingData } from '../../services/sharing-data';
 
 @Component({
   selector: 'user',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './user.html',
 })
 export class UserComponent {
 
-  @Input() users: User[] = [];
+  users: User[] = [];
 
-  @Output() idUserEvent = new EventEmitter();
+ 
 
-  @Output() selectUserEvent = new EventEmitter();
+  constructor(
+    private sharingData: SharingData,
+    private router: Router,
+    private service: UserService
+
+  ) {
+
+    if (this.router.getCurrentNavigation()?.extras?.state?.['users']) {
+      this.users = this.router.getCurrentNavigation()?.extras.state!['users'];
+    } else {
+      this.service.findAll().subscribe(users => this.users = users);
+
+    }
+  }
 
   onRemoveUser(id: number): void {
     Swal.fire({
@@ -27,7 +43,7 @@ export class UserComponent {
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.idUserEvent.emit(id);
+        this.sharingData.idUserEvent.emit(id);
         Swal.fire("Borrado", "Usuario eliminado correctamente", "success");
       }
     });
@@ -36,6 +52,7 @@ export class UserComponent {
 
   onUpdateUser(user: User): void {
     console.log('Usuario seleccionado para editar:', user);
-    this.selectUserEvent.emit(user);
+    this.sharingData.selectUserEvent.emit(user);
+    this.router.navigate(['/user/edit', user.id],{state:{user}});
   }
 }

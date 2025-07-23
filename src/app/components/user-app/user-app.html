@@ -1,14 +1,5 @@
-<h2 class="my-4">Listado de usuarios</h2>
+<app-navbar [users]="users"/>
 
-<button class="btn btn-primary my-2" (click)="setOpen()">Crear Usuario</button>
-<div class="row">
-    @if(open){
-
-    <user-form [user]="userSelected" [open]="open" (newUser)="addUser($event)" (openEvent)="setOpen()">
-    </user-form>
-    }
-    <div class="col">
-        <user [users]="users" (idUserEvent)="onRemoveUser($event)" (selectUserEvent)="setSelectUser($event)"
-            (openEvent)="setOpen()"></user>
-    </div>
+<div class="container my-4">
+<router-outlet></router-outlet>
 </div>
