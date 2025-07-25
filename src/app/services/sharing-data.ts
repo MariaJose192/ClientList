@@ -12,6 +12,10 @@ export class SharingData {
 
   private _selectUserEvent = new EventEmitter();
 
+  private _findUserByIdEvent = new EventEmitter();
+
+  private _selectUser = new EventEmitter();
+
   constructor() { }
 
   get newUser(): EventEmitter<User> {
@@ -26,4 +30,11 @@ export class SharingData {
     return this._selectUserEvent;
   }
 
+  get findUserByIdEvent(): EventEmitter<number> {
+    return this._findUserByIdEvent;
+  }
+
+  get selectUser(): EventEmitter<User> {
+    return this._selectUser;
+  }
 }

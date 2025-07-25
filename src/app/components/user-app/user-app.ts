@@ -34,7 +34,20 @@ export class UserApp implements OnInit {
     this.addUser();
     this.onRemoveUser();
     this.setSelectUser();
+    this.findUserById();
   }
+
+
+  findUserById(){
+    this.sharingData.findUserByIdEvent.subscribe(id => {
+      const user = this.users.find(u => u.id === id);
+
+      this.sharingData.selectUser.emit(user);
+      
+    })
+
+  }
+
 
   addUser() {
     this.sharingData.newUser.subscribe(user => {
