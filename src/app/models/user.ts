@@ -2,9 +2,10 @@ export class User {
 
     id!: number;
     name!: string;
-    lastName!: string;
+    lastname!: string;
     email!: string;
     username!: string;
     password!: string;
+    image!: string;
 
 }
