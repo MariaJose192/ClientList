@@ -27,8 +27,10 @@ Asegúrate de tener instalado:
    git clone https://github.com/MariaJose192/ClientList
    cd user-app
 2. Instala las dependencias:
+   ```bash
    npm install
 4. Levantar aplicación:
+   ```bash
    ng serve
 
 
