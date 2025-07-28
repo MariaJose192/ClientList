@@ -8,73 +8,74 @@
 
         <!-- Campo Nombre -->
         <div>
-          <input placeholder="Nombre" name="name" [(ngModel)]="user.name" class="form-control my-2"
-                 required #name="ngModel">
+          <input placeholder="Nombre" name="name" [(ngModel)]="user.name" class="form-control my-2" required
+            #name="ngModel">
           @if (name.invalid && (name.dirty || name.touched)) {
-            @if (name.errors!['required']) {
-              <div class="alert alert-danger">El nombre es obligatorio.</div>
-            }
+          @if (name.errors!['required']) {
+          <div class="alert alert-danger">El nombre es obligatorio.</div>
+          }
           }
         </div>
 
         <!-- Campo Apellidos -->
         <div>
-          <input placeholder="Apellidos" name="lastname" [(ngModel)]="user.lastname"
-                 class="form-control my-2" required #lastname="ngModel">
+          <input placeholder="Apellidos" name="lastname" [(ngModel)]="user.lastname" class="form-control my-2" required
+            #lastname="ngModel">
           @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
-            @if (lastname.errors!['required']) {
-              <div class="alert alert-danger">El apellido es obligatorio.</div>
-            }
+          @if (lastname.errors!['required']) {
+          <div class="alert alert-danger">El apellido es obligatorio.</div>
+          }
           }
         </div>
 
         <!-- Campo Email -->
         <div>
-          <input placeholder="Email" name="email" [(ngModel)]="user.email" class="form-control my-2"
-                 required type="email" email #email="ngModel">
+          <input placeholder="Email" name="email" [(ngModel)]="user.email" class="form-control my-2" required
+            type="email" email #email="ngModel">
           @if (email.invalid && (email.dirty || email.touched)) {
-            @if (email.errors!['required']) {
-              <div class="alert alert-danger">El email es obligatorio.</div>
-            }
+          @if (email.errors!['required']) {
+          <div class="alert alert-danger">El email es obligatorio.</div>
+          }
           }
         </div>
 
         <!-- Campo Usuario -->
         <div>
-          <input placeholder="Usuario" name="username" [(ngModel)]="user.username"
-                 class="form-control my-2" required minlength="8" #username="ngModel">
+          <input placeholder="Usuario" name="username" [(ngModel)]="user.username" class="form-control my-2" required
+            minlength="8" #username="ngModel">
           @if (username.invalid && (username.dirty || username.touched)) {
-            @if (username.errors!['required']) {
-              <div class="alert alert-danger">El usuario es obligatorio.</div>
-            }
-            @if (username.errors!['minlength']) {
-              <div class="alert alert-danger">El usuario debe tener al menos 8 caracteres.</div>
-            }
+          @if (username.errors!['required']) {
+          <div class="alert alert-danger">El usuario es obligatorio.</div>
+          }
+          @if (username.errors!['minlength']) {
+          <div class="alert alert-danger">El usuario debe tener al menos 8 caracteres.</div>
+          }
           }
         </div>
 
         <!-- Campo Contraseña -->
         <div>
           <input placeholder="Contraseña" name="password" type="password" [(ngModel)]="user.password"
-                 class="form-control my-2" required minlength="6" #password="ngModel">
+            class="form-control my-2" required minlength="6" #password="ngModel">
           @if (password.invalid && (password.dirty || password.touched)) {
-            @if (password.errors!['required']) {
-              <div class="alert alert-danger">La contraseña es obligatoria.</div>
-            }
-            @if (password.errors!['minlength']) {
-              <div class="alert alert-danger">La contraseña debe tener al menos 6 caracteres.</div>
-            }
+          @if (password.errors!['required']) {
+          <div class="alert alert-danger">La contraseña es obligatoria.</div>
+          }
+          @if (password.errors!['minlength']) {
+          <div class="alert alert-danger">La contraseña debe tener al menos 6 caracteres.</div>
+          }
           }
         </div>
 
         <!-- Campo Imagen -->
         <div class="mb-3">
-          <label for="imagen" class="form-label">Foto del Cliente</label>
           <input type="file" class="form-control" id="imagen" (change)="onFileSelected($event)">
-          <div *ngIf="preview" class="mt-2">
-            <img [src]="preview" alt="Previsualización" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+          <div class="mt-2">
+            <img [src]="preview || defaultImage" alt="Previsualización"
+              style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
           </div>
         </div>
+
 
         <!-- Botones -->
         <div class="d-flex justify-content-between">

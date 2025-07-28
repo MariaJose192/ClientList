@@ -1,26 +1,24 @@
 import { Routes } from '@angular/router';
-import { UserForm } from './components/user-form/user-form';
 import { UserComponent } from './components/user/user';
-
+import { UserForm } from './components/user-form/user-form';
 
 export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/users',
-
+        redirectTo: '/users'
     },
     {
         path: 'users',
         component: UserComponent,
-
     },
     {
-        path:'users/create',
+        path: 'users/create', 
         component: UserForm,
     },
     {
-        path: 'user/edit/:id',
-        component: UserForm,
+        path: 'users/edit/:id',
+        component: UserForm
     }
+
 ];

@@ -14,20 +14,16 @@ export class UserComponent {
 
   users: User[] = [];
 
- 
-
   constructor(
     private sharingData: SharingData,
     private router: Router,
     private service: UserService
-
   ) {
 
     if (this.router.getCurrentNavigation()?.extras?.state?.['users']) {
       this.users = this.router.getCurrentNavigation()?.extras.state!['users'];
     } else {
       this.service.findAll().subscribe(users => this.users = users);
-
     }
   }
 

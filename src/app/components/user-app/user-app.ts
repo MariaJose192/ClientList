@@ -11,7 +11,7 @@ import { SharingData } from '../../services/sharing-data';
 
 @Component({
   selector: 'user-app',
-  imports: [UserComponent, UserForm, RouterOutlet, Navbar],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './user-app.html',
   styleUrl: './user-app.css'
 })
@@ -25,7 +25,6 @@ export class UserApp implements OnInit {
     private sharingData: SharingData,
     private router: Router
   ) {
-
     this.userSelected = new User();
   }
 
@@ -37,27 +36,28 @@ export class UserApp implements OnInit {
     this.findUserById();
   }
 
-
-  findUserById(){
+  findUserById() {
     this.sharingData.findUserByIdEvent.subscribe(id => {
       const user = this.users.find(u => u.id === id);
-
       this.sharingData.selectUser.emit(user);
-      
     })
-
   }
-
 
   addUser() {
     this.sharingData.newUser.subscribe(user => {
       if (user.id > 0) {
-        this.users = this.users.map(u => (u.id === user.id) ? { ...user } : u);
-      } else {
-        this.users = [... this.users, { ...user, id: this.users.length + 1 }];
+        this.service.update(user).subscribe(userUpdate => {
+          this.users = this.users.map(u => (u.id === userUpdate.id) ? { ...userUpdate } : u);
+          this.router.navigate(['/users'], { state: { users: this.users } });
 
+        })
+      } else {
+        this.service.create(user).subscribe(userCreated => {
+          this.users = [...this.users, { ...userCreated }];
+          this.router.navigate(['/users'], { state: { users: this.users } });
+
+        });
       }
-      this.router.navigate(['/users'], { state: { users: this.users } });
       Swal.fire({
         title: "Guardado",
         text: 'Usuario guardado correctamente',
@@ -67,19 +67,21 @@ export class UserApp implements OnInit {
     });
   }
 
-onRemoveUser(): void {
-  this.sharingData.idUserEvent.subscribe(id => {
-    this.users = this.users.filter(user => user.id !== id);
-    this.router.navigate(['/users/create'], { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/users'], { state: { users: this.users } });
+  onRemoveUser(): void {
+    this.sharingData.idUserEvent.subscribe(id => {
+      this.service.remove(id).subscribe(() => {
+        this.users = this.users.filter(user => user.id !== id);
+        this.router.navigate(['/users/create'], { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/users'], { state: { users: this.users } });
+        });
+      })
     });
-  });
-}
+  }
 
-setSelectUser(): void {
-  this.sharingData.selectUserEvent.subscribe(user => {
-    this.userSelected = { ...user };
-  });
-}
+  setSelectUser(): void {
+    this.sharingData.selectUserEvent.subscribe(user => {
+      this.userSelected = { ...user };
+    });
+  }
 
 }

@@ -1,9 +1,10 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import { SharingData } from '../../services/sharing-data';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'user-form',
@@ -15,13 +16,16 @@ export class UserForm implements OnInit {
 
   user: User = new User();
 
-  // NUEVAS PROPIEDADES
+  defaultImage: string = 'img/IconUser.png';
+  preview: string | ArrayBuffer | null = this.defaultImage;
+
   selectedFile: File | null = null;
-  preview: string | ArrayBuffer | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private sharingData: SharingData
+    private sharingData: SharingData,
+    private service: UserService,
+    private cdr: ChangeDetectorRef
   ) {
     this.user = new User();
   }
@@ -31,12 +35,18 @@ export class UserForm implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id: number = +(params.get('id') || '0');
       if (id > 0) {
-        this.sharingData.findUserByIdEvent.emit(id);
+        this.service.findById(id).subscribe(user => {
+          this.user = user;
+          this.preview = user.image || this.defaultImage;
+          console.log('Usuario encontrado:', this.user);
+          this.cdr.detectChanges();
+        });
+      } else {
+        this.preview = this.defaultImage;
       }
     });
   }
 
-  // NUEVO MÉTODO PARA SELECCIONAR IMAGEN
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -46,9 +56,8 @@ export class UserForm implements OnInit {
       reader.onload = () => this.preview = reader.result;
       reader.readAsDataURL(this.selectedFile);
 
-      // Guardamos la imagen (base64) en el objeto User
       reader.onloadend = () => {
-        this.user.image = reader.result as string;  // Guardamos el base64 en user.image
+        this.user.image = reader.result as string;
       };
     }
   }
