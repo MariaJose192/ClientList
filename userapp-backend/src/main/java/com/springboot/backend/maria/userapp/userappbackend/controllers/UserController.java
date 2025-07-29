@@ -65,6 +65,8 @@ public class UserController {
             userDB.setUsername(user.getUsername());
             userDB.setPassword(user.getPassword());
             userDB.setImage(user.getImage());
+            userDB.setPhone(user.getPhone());
+            userDB.setAddress(user.getAddress());
             return ResponseEntity.ok(userService.save(userDB));
         } else {
             return ResponseEntity.notFound().build();
