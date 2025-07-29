@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserService {
 
+  //URL principal de la API
   private url = 'http://localhost:8080/api/users';
 
   private usersSubject = new BehaviorSubject<User[]>([]);
@@ -18,20 +19,24 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  // Método para obtener todos los usuarios
   findAll(): Observable<User[]> {
     return this.http.get<User[]>(`${this.url}`).pipe(
       tap(users => this.usersSubject.next(users))
     );
   }
 
+  //Método para actualizar la lista de usuarios
   setUsers(users: User[]): void {
     this.usersSubject.next(users);
   }
 
+  //Método para buscar un usuario por ID
   findById(id: number): Observable<User> {
     return this.http.get<User>(`${this.url}/${id}`);
   }
 
+  //Métodos para crear, actualizar y eliminar usuarios
   create(user: User): Observable<User> {
     return this.http.post<User>(`${this.url}`, user).pipe(
       tap(userCreated => {
@@ -63,6 +68,7 @@ export class UserService {
     );
   }
 
+  //Métodos auxiliares para la búsqueda de usuarios
   setSearchUser(term: string): void {
     this.searchTermSubject.next(term);
   }
