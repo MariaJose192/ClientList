@@ -39,3 +39,41 @@
         opacity: 1
     }
 }
+
+.navbar {
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+}
+.navbar-brand span {
+  color: #fff;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+.nav-link {
+  color: #f8f9fa !important;
+}
+.nav-link:hover {
+  color: #ffe484 !important;
+}
+.btn-custom {
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+  }
+
+  .btn-custom:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+  }
+   .user-card {
+    border: 1px solid #dee2e6;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border-color: #0d6efd;
+  }

@@ -1,93 +1,74 @@
 <div class="card">
   <div class="card-content">
     <div class="card-header">
-      <h5 class="card-title">{{ user.id > 0 ? 'Actualizar Usuario' : 'Añadir Usuario' }}</h5>
+      <h5 class="card-title d-flex justify-content-between align-items-center">
+        <span>
+          {{ isViewMode ? 'Ver Usuario' : (user.id > 0 ? 'Actualizar Usuario' : 'Añadir Usuario') }}
+        </span>
+        <i class="fas fa-times btn btn-dark" (click)="cerrarVista()"></i>
+      </h5>
+
     </div>
     <div class="card-body">
-      <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
 
-        <!-- Campo Nombre -->
-        <div>
-          <input placeholder="Nombre" name="name" [(ngModel)]="user.name" class="form-control my-2" required
-            #name="ngModel">
-          @if (name.invalid && (name.dirty || name.touched)) {
-          @if (name.errors!['required']) {
-          <div class="alert alert-danger">El nombre es obligatorio.</div>
-          }
-          }
+      <div *ngIf="isViewMode; else editMode" class="row align-items-center">
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Nombre:</strong> {{ user.name }}</li>
+            <li class="list-group-item"><strong>Apellidos:</strong> {{ user.lastname }}</li>
+            <li class="list-group-item"><strong>Dirección:</strong> {{ user.address }}</li>
+            <li class="list-group-item"><strong>Teléfono:</strong> {{ user.phone}}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+            <li class="list-group-item"><strong>Usuario:</strong> {{ user.username }}</li>
+          </ul>
         </div>
-
-        <!-- Campo Apellidos -->
-        <div>
-          <input placeholder="Apellidos" name="lastname" [(ngModel)]="user.lastname" class="form-control my-2" required
-            #lastname="ngModel">
-          @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
-          @if (lastname.errors!['required']) {
-          <div class="alert alert-danger">El apellido es obligatorio.</div>
-          }
-          }
+        <div class="col-md-6 text-center">
+          <img [src]="preview || defaultImage" alt="Imagen de {{ user.name }}" class="rounded shadow"
+            style="width: 250px; height: 250px; object-fit: cover; border: 2px solid #ddd; border-radius: 10px;">
         </div>
+      </div>
 
-        <!-- Campo Email -->
-        <div>
-          <input placeholder="Email" name="email" [(ngModel)]="user.email" class="form-control my-2" required
-            type="email" email #email="ngModel">
-          @if (email.invalid && (email.dirty || email.touched)) {
-          @if (email.errors!['required']) {
-          <div class="alert alert-danger">El email es obligatorio.</div>
-          }
-          }
-        </div>
-
-        <!-- Campo Usuario -->
-        <div>
-          <input placeholder="Usuario" name="username" [(ngModel)]="user.username" class="form-control my-2" required
-            minlength="8" #username="ngModel">
-          @if (username.invalid && (username.dirty || username.touched)) {
-          @if (username.errors!['required']) {
-          <div class="alert alert-danger">El usuario es obligatorio.</div>
-          }
-          @if (username.errors!['minlength']) {
-          <div class="alert alert-danger">El usuario debe tener al menos 8 caracteres.</div>
-          }
-          }
-        </div>
-
-        <!-- Campo Contraseña -->
-        <div>
-          <input placeholder="Contraseña" name="password" type="password" [(ngModel)]="user.password"
-            class="form-control my-2" required minlength="6" #password="ngModel">
-          @if (password.invalid && (password.dirty || password.touched)) {
-          @if (password.errors!['required']) {
-          <div class="alert alert-danger">La contraseña es obligatoria.</div>
-          }
-          @if (password.errors!['minlength']) {
-          <div class="alert alert-danger">La contraseña debe tener al menos 6 caracteres.</div>
-          }
-          }
-        </div>
-
-        <!-- Campo Imagen -->
-        <div class="mb-3">
-          <input type="file" class="form-control" id="imagen" (change)="onFileSelected($event)">
-          <div class="mt-2">
-            <img [src]="preview || defaultImage" alt="Previsualización"
-              style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+      <ng-template #editMode>
+        <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+          <div>
+            <input placeholder="Nombre" name="name" [(ngModel)]="user.name" class="form-control my-2" required
+              #name="ngModel">
           </div>
-        </div>
+          <div>
+            <input placeholder="Apellidos" name="lastname" [(ngModel)]="user.lastname" class="form-control my-2"
+              required #lastname="ngModel">
+          </div>
+          <div>
+            <input placeholder="Email" name="email" [(ngModel)]="user.email" class="form-control my-2" required
+              type="email" email #email="ngModel">
+          </div>
+          <div>
+            <input placeholder="Usuario" name="username" [(ngModel)]="user.username" class="form-control my-2" required
+              minlength="8" #username="ngModel">
+          </div>
+          <div>
+            <input placeholder="Contraseña" name="password" type="password" [(ngModel)]="user.password"
+              class="form-control my-2" required minlength="6" #password="ngModel">
+          </div>
+          <div class="mb-3">
+            <input type="file" class="form-control" id="imagen" (change)="onFileSelected($event)">
+            <div class="mt-2">
+              <img [src]="preview || defaultImage" alt="Previsualización"
+                style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary my-2" [disabled]="userForm.invalid">
+              {{ user.id > 0 ? 'Actualizar' : 'Añadir Usuario' }}
+            </button>
+            <button type="button" class="btn btn-secondary my-2" (click)="clearForm(userForm)">
+              Limpiar datos
+            </button>
+          </div>
 
+        </form>
+      </ng-template>
 
-        <!-- Botones -->
-        <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary my-2" [disabled]="userForm.invalid">
-            {{ user.id > 0 ? 'Actualizar' : 'Añadir Usuario' }}
-          </button>
-          <button type="button" class="btn btn-secondary my-2" (click)="clearForm(userForm)">
-            Limpiar datos
-          </button>
-        </div>
-
-      </form>
     </div>
   </div>
 </div>

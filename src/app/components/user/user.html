@@ -1,53 +1,44 @@
-<h2 class="my-4">Listado de Clientes</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">Listado de Clientes</h2>
+  <button class="btn btn-primary" (click)="onCreateUser()">
+  <i class="fas fa-user-plus"></i> Crear Usuario
+</button>
 
-<div class="d-flex justify-content-end my-2">
-    <button class="btn btn-primary" [routerLink]="['/users/create']">
-        <i class="fas fa-user-plus"></i> Crear Usuario
-    </button>
 </div>
 
 @if (users.length > 0) {
-<table class="table table-striped mx-2">
-    <thead>
-        <tr>
-            <th class="text-center">Foto</th>
-            <th class="text-center">Nombre</th>
-            <th class="text-center">Apellidos</th>
-            <th class="text-center">Email</th>
-            <th class="text-center">Usuario</th>
-            <th class="text-center">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (user of users; track $index) {
-        <tr>
-            <td class="text-center">
-                <img [src]="user.image || 'img/IconUser.png'" alt="Imagen de {{ user.name }}" class="rounded-circle"
-                    style="width: 70px; height: 70px; object-fit: cover;">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+  @for (user of users; track $index) {
+  <div class="col">
+    <div class="card h-100 shadow-sm user-card">
+      <div class="card-body text-center p-4">
+        <img [src]="user.image || 'img/IconUser.png'"
+             class="rounded-circle mb-3 border border-3"
+             alt="Imagen de {{ user.name }}"
+             style="width: 100px; height: 100px; object-fit: cover; border-color: #dee2e6;">
 
-            </td>
-            <td class="text-center">{{user.name}}</td>
-            <td class="text-center">{{user.lastname}}</td>
-            <td class="text-center">{{user.email}}</td>
-            <td class="text-center">{{user.username}}</td>
-            <td class="text-center">
-                <div class="mx-2" role="group">
-                    <button class="btn btn-success btn-icon me-2" title="Ver datos">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button class="btn btn-info btn-icon me-2" [routerLink]="['/users/edit', user.id]" title="Modificar">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                    <button class="btn btn-danger btn-icon" (click)="onRemoveUser(user.id)" title="Eliminar">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+        <h5 class="card-title fw-bold mb-1">{{ user.name }} {{ user.lastname }}</h5>
+        <p class="text-muted mb-1"><i class="fas fa-envelope"></i> {{ user.email }}</p>
+        <p class="text-muted mb-3"><i class="fas fa-user"></i> {{ user.username }}</p>
 
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-outline-success btn-sm" [routerLink]="['/users/view', user.id]" title="Ver datos">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="btn btn-outline-info btn-sm" [routerLink]="['/users/edit', user.id]" title="Modificar">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="btn btn-outline-danger btn-sm" (click)="onRemoveUser(user.id)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>
 } @else {
 <p class="alert alert-warning">No hay usuarios para mostrar</p>
 }
+
+

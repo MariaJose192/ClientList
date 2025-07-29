@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-import { UserComponent } from '../user/user';
-import { UserForm } from '../user-form/user-form';
 import Swal from 'sweetalert2';
 import { Router, RouterOutlet } from '@angular/router';
 import { Navbar } from "../navbar/navbar";
@@ -28,6 +26,7 @@ export class UserApp implements OnInit {
     this.userSelected = new User();
   }
 
+  //Inicializamos el componente con los usuarios
   ngOnInit(): void {
     this.service.findAll().subscribe(users => this.users = users);
     this.addUser();
@@ -36,6 +35,7 @@ export class UserApp implements OnInit {
     this.findUserById();
   }
 
+  // Método para buscar usuarios por ID
   findUserById() {
     this.sharingData.findUserByIdEvent.subscribe(id => {
       const user = this.users.find(u => u.id === id);
@@ -43,12 +43,13 @@ export class UserApp implements OnInit {
     })
   }
 
+  // Método para añadir o actualizar un usuario
   addUser() {
     this.sharingData.newUser.subscribe(user => {
       if (user.id > 0) {
         this.service.update(user).subscribe(userUpdate => {
           this.users = this.users.map(u => (u.id === userUpdate.id) ? { ...userUpdate } : u);
-          this.router.navigate(['/users'], { state: { users: this.users } });
+          this.router.navigate(['/users']);
 
         })
       } else {
@@ -67,6 +68,7 @@ export class UserApp implements OnInit {
     });
   }
 
+  // Método para eliminar un usuario
   onRemoveUser(): void {
     this.sharingData.idUserEvent.subscribe(id => {
       this.service.remove(id).subscribe(() => {
@@ -78,6 +80,7 @@ export class UserApp implements OnInit {
     });
   }
 
+  // Método complementario para seleccionar un usuario
   setSelectUser(): void {
     this.sharingData.selectUserEvent.subscribe(user => {
       this.userSelected = { ...user };

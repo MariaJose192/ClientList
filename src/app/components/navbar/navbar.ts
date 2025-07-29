@@ -1,14 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { User } from '../../models/user';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule],
+  standalone: true,
+  imports: [RouterModule, FormsModule],
   templateUrl: './navbar.html',
 })
 export class Navbar {
+  termino: string = '';
 
-  @Input() users: User[] = [];
+  constructor(private userService: UserService) {}
 
+  // Método para buscar usuarios
+  buscar() {
+    this.userService.setSearchUser(this.termino);
+  }
 }

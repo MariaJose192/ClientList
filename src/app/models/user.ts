@@ -4,8 +4,9 @@ export class User {
     name!: string;
     lastname!: string;
     email!: string;
+    address!: string;
+    phone!: string;
     username!: string;
     password!: string;
     image!: string;
-
 }
