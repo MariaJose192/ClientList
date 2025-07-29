@@ -54,6 +54,15 @@ Asegúrate de tener instalado:
 
 <img width="1920" height="809" alt="image" src="https://github.com/user-attachments/assets/5759b064-3c3f-4bbd-8c21-6868d918ef4d" />
 
+## 6. Vista desde dispositivo móvil:
+
+<img width="388" height="777" alt="image" src="https://github.com/user-attachments/assets/c878fe3d-169a-453a-9a92-e151d6239a81" />
+<img width="378" height="754" alt="image" src="https://github.com/user-attachments/assets/33be5261-0f3a-43f8-9245-ce1376e0f83e" />
+<img width="377" height="763" alt="image" src="https://github.com/user-attachments/assets/a10ded9b-9974-4ac1-a063-97552324b583" />
+
+
+
+
 
 
 
