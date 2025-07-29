@@ -32,6 +32,31 @@ Asegúrate de tener instalado:
 4. Levantar aplicación:
    ```bash
    ng serve
+# Manual de usuario:
+
+## 1. Página principal:
+
+<img width="1900" height="765" alt="image" src="https://github.com/user-attachments/assets/21741995-47f0-49e8-a9be-164508de2b34" />
+
+## 2. Actualizar usuario:
+
+<img width="1920" height="799" alt="image" src="https://github.com/user-attachments/assets/28af61f1-fe5b-470d-b420-4eced55a2487" />
+
+## 3. Ver usuario sin modificar datos:
+
+<img width="1920" height="671" alt="image" src="https://github.com/user-attachments/assets/259a0f7a-b72c-413d-92cd-d22134380432" />
+
+## 4. Buscar usuario:
+
+<img width="1920" height="665" alt="image" src="https://github.com/user-attachments/assets/9f5991fc-0f63-47f6-977c-14ddc3f55735" />
+
+## 5. Eliminar usuario: 
+
+<img width="1920" height="809" alt="image" src="https://github.com/user-attachments/assets/5759b064-3c3f-4bbd-8c21-6868d918ef4d" />
+
+
+
+
 
 
 
